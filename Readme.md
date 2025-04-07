@@ -56,7 +56,7 @@ Scoring Strategy for Capstone Requirements
 ✔ Implemented authentication (username/password + JWTs)
 ✔ Implemented update & delete operations in the React app
 ✔ Used Bruno API templates for testing APIs
-✅ Level 2 Concepts (Advanced, higher points per concept)
+✅ Level 2 Concepts (Advanced, higher points per concept){Optional}
 ✔ Wrote 5+ unit tests using Jest
 ✔ Implemented Docker support (Dockerized backend/frontend)
 ✔ Implemented AI-powered LLM sentiment analysis & autocomplete
@@ -65,7 +65,6 @@ Scoring Strategy for Capstone Requirements
 ________________________________________
 Why This Project?
 💖 Emotional Value – Helps couples strengthen their bond through shared memories
-🤖 Unique AI Features – Sentiment tracking & personalized suggestions
 🚀 Market Potential – Relationship & memory apps are highly popular
 🎨 Personalized Experience – Every couple’s scrapbook is uniquely theirs
 bak
