@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const memorySchema = new mongoose.Schema({
   title: { type: String, required: true },
-  description: String,
+  description: {String},
   date: { type: Date, default: Date.now },
   media: [{ type: String }],
   tags: [{ type: String }],

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getMemories } = require('../controllers/memoryController');
-router.get('/', getMemories);
+const memoryController = require('../controllers/memoryController');
+router.get('/', memoryController.getMemories);
+router.post('/', memoryController.createMemory);
 module.exports = router;

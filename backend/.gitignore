@@ -1,0 +1,5 @@
+.env/
+ pacake-lock.json
+ node_modules
+
+dist
