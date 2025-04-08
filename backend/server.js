@@ -8,6 +8,7 @@ mongoose.connect(process.env.MONGO_URL)// Database connectio
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+  // 
 app.use('/api/memories', memoryRoutes);// Routes
 app.get('/', (req, res) => res.send('API Running'));// Health check
 const PORT = process.env.PORT || 8000;

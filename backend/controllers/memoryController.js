@@ -9,6 +9,7 @@ const getMemories = async (req, res) => {
     res.status(500).json({ success: false, error: 'Failed to fetch memories' });
   }
 };
+
 const createMemory = async (req, res) => {
     try {
       const { title, description, createdBy, coupleId } = req.body;

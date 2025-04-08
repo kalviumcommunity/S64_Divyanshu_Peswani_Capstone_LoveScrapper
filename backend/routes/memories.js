@@ -4,3 +4,4 @@ const memoryController = require('../controllers/memoryController');
 router.get('/', memoryController.getMemories);
 router.post('/', memoryController.createMemory);
 module.exports = router;
+
