@@ -1,80 +1,116 @@
-Capstone Project Title:
-Memory Keeper for Couples – A Smart Digital Scrapbook
-Project Idea & Brief Description:
-The Memory Keeper for Couples is a digital scrapbook designed to help couples store, relive, and celebrate their relationship milestones. This app will serve as a private, interactive space where partners can upload photos, videos, voice notes, messages, and shared experiences.
-The application will include AI-powered features such as:
-✅ Auto-organized memories (tagging by events like anniversaries, vacations, date nights)
-✅ Smart Chat & Love Notes (sentiment analysis + AI-summarized heartfelt moments)
-✅ Anniversary Reminders & Personalized Surprises (AI-generated gift ideas)
-✅ Virtual Memory Jar (messages stored for future retrieval)
-✅ Shared Bucket List (track relationship goals together)
-✅ End-to-End Encryption for privacy and security
-Tech Stack:
-•	Frontend: React Native (cross-platform mobile development)
-•	Backend: Node.js with Express
-•	Database: Firebase (real-time updates) or MongoDB
-•	AI Features: OpenAI API (for sentiment analysis and AI-generated recommendations)
-•	Security: AES-256 encryption, JWT authentication
-________________________________________
-Day-by-Day Capstone Journey Plan
-Week 1: Planning & Research
-📌 Day 1-2: Define project scope, feature list, and finalize the tech stack
-📌 Day 3-4: Research UI/UX design, create low-fidelity wireframes
-📌 Day 5: Develop high-fidelity designs using Figma
-📌 Day 6-7: Set up GitHub project (README, issues, milestones, project tracking)
-Week 2: Backend Development
-📌 Day 8-9: Set up Node.js + Express backend, implement user authentication (username/password + JWTs)
-📌 Day 10-11: Develop database schema and implement GET/POST APIs for memory storage
-📌 Day 12: Implement file upload functionality (photos, videos, voice notes)
-📌 Day 13: Implement PUT API (update memory details) and DELETE API (remove memory entries)
-📌 Day 14: Deploy backend server and connect it to MongoDB/Firebase
-Week 3: Frontend Development
-📌 Day 15-16: Initialize React Native app and set up navigation
-📌 Day 17-18: Develop Memory Timeline component (displaying stored memories)
-📌 Day 19: Implement Smart Chat & Love Notes section
-📌 Day 20: Create Shared Bucket List & Virtual Memory Jar features
-📌 Day 21: Deploy frontend app and connect it to the backend
-Week 4: AI Features, Testing & Deployment
-📌 Day 22: Implement AI-powered sentiment analysis for chat messages
-📌 Day 23: Implement Anniversary Reminder & Gift Suggestion AI feature
-📌 Day 24-25: Write unit tests using Jest (at least 5 tests)
-📌 Day 26: Dockerize the application and test the Docker deployment
-📌 Day 27-28: Final testing, debugging, and deployment (showcase a working demo)
-________________________________________
-Scoring Strategy for Capstone Requirements
-✅ Level 1 Concepts (0.5 per concept)
-✔ Created low-fidelity design (Wireframes)
-✔ Created high-fidelity design (Figma UI)
-✔ Set up GitHub project (with README, issues, milestones)
-✔ Managed daily tasks on GitHub Projects (tracked for 10+ days)
-✔ Implemented GET, POST, PUT APIs for memory storage
-✔ Deployed backend server
-✔ Created database schema & performed read/write operations
-✔ Implemented React frontend & deployed it
-✔ Created frontend components matching design
-✔ Implemented file upload functionality (photos, videos, audio)
-✔ Implemented authentication (username/password + JWTs)
-✔ Implemented update & delete operations in the React app
-✔ Used Bruno API templates for testing APIs
-✅ Level 2 Concepts (Advanced, higher points per concept){Optional}
-✔ Wrote 5+ unit tests using Jest
-✔ Implemented Docker support (Dockerized backend/frontend)
-✔ Implemented AI-powered LLM sentiment analysis & autocomplete
-✔ Project will be used by 5+ active users (aiming for 10-50 users)
-✔ Submitted pull request on open-source project (at least 10 lines of code)
-________________________________________
-Why This Project?
-💖 Emotional Value – Helps couples strengthen their bond through shared memories
-🚀 Market Potential – Relationship & memory apps are highly popular
-🎨 Personalized Experience – Every couple’s scrapbook is uniquely theirs
-bak
-This project plan outlines a 4-week development timeline for a mobile app that helps couples strengthen their bond through shared memories. The app will include features such as photo and video sharing, sentiment analysis, and personalized suggestions. The project will be developed using React Native, Node.js, and MongoDB, and will be deployed on AWS. The plan includes a detailed breakdown of the features to be implemented, the technologies to be used, and the milestones to be achieved during the development process.
 
+# 💖 Memory Keeper for Couples – A Smart Digital Scrapbook
 
+![React Native](https://img.shields.io/badge/React_Native-Mobile_App-blue?logo=react)
+![Node.js](https://img.shields.io/badge/Node.js-Backend-brightgreen?logo=node.js)
+![MongoDB](https://img.shields.io/badge/MongoDB-Database-green?logo=mongodb)
+![OpenAI](https://img.shields.io/badge/OpenAI-AI_Features-purple?logo=openai)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+## 📝 Project Description
 
+**Memory Keeper for Couples** is a private, interactive mobile app designed to help couples capture, relive, and celebrate their relationship milestones. From anniversary reminders to a shared bucket list, this smart digital scrapbook combines emotional connection with modern tech, including AI-powered features and a secure, intuitive experience.
 
+## ✨ Features
 
+- 📸 Upload & store photos, videos, audio, and notes
+- 💬 AI-powered **Smart Chat & Love Notes** (Sentiment analysis + summary)
+- 🗓️ Auto-tagged memories by events (anniversaries, vacations, date nights)
+- 🎁 Anniversary reminders with **AI-generated gift ideas**
+- 🧃 **Virtual Memory Jar** (store messages for the future)
+- 🎯 **Shared Bucket List** for relationship goals
+- 🔐 End-to-End Encryption & JWT-based Authentication
 
-render link
-"https://s64-divyanshu-peswani-capstone-d2pe.onrender.com"
+## ⚙️ Tech Stack
+
+| Layer      | Technology               |
+|------------|---------------------------|
+| Frontend   | React Native              |
+| Backend    | Node.js + Express         |
+| Database   | MongoDB / Firebase        |
+| AI/ML      | OpenAI API (LLM features) |
+| Security   | AES-256 encryption, JWT   |
+| DevOps     | Render / Docker / GitHub  |
+
+## 🔧 Installation & Setup
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/<your-username>/memory-keeper-app.git
+cd memory-keeper-app
+```
+
+### 2. Backend Setup
+```bash
+cd backend
+npm install
+touch .env
+# Add your MongoDB URI, JWT secret, OpenAI key in .env
+npm run dev
+```
+
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+npx react-native run-android   # or run-ios
+```
+
+## 🌐 Live Demo
+
+🔗 **Deployed App (Backend)**:  
+[https://s64-divyanshu-peswani-capstone-d2pe.onrender.com](https://s64-divyanshu-peswani-capstone-d2pe.onrender.com)
+
+## 🧠 AI Features
+
+| Feature                            | Description                                                                 |
+|------------------------------------|-----------------------------------------------------------------------------|
+| Sentiment Analysis                 | Analyzes couple chats and displays emotional summaries                      |
+| Smart Autocomplete for Love Notes | AI-generated prompts and summaries of special messages                      |
+| Gift Ideas Generator               | Personalized surprise suggestions based on chat patterns and anniversaries |
+
+## 🛡️ Security Highlights
+
+- AES-256 encrypted memory storage
+- JWT-based secure authentication
+- End-to-End encrypted private messaging
+- Input validation and API protection
+
+## ✅ Capstone Scoring Requirements Met
+
+- 📐 Low & high-fidelity designs (Figma)
+- ✅ GitHub project board with issues, milestones
+- 🧪 Unit testing with Jest (5+ tests)
+- 🚢 Dockerized full app with Render deployment
+- 📦 RESTful APIs (GET, POST, PUT, DELETE)
+- 💾 File uploads: photos, videos, voice notes
+- 🔐 Auth (JWT + secure password handling)
+- 🧠 AI LLM integration via OpenAI
+
+## 👥 Contributing
+
+We welcome contributions!
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -m 'Add new feature'`)
+4. Push to the branch (`git push origin feature/new-feature`)
+5. Open a pull request
+
+## 📅 Project Timeline
+
+- **Week 1:** Planning, UI/UX research, wireframes & GitHub setup  
+- **Week 2:** Backend + database + file uploads  
+- **Week 3:** Frontend development with component integration  
+- **Week 4:** AI features, testing, Docker, and deployment  
+
+## 📃 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## 🙋‍♀️ Why This Project?
+
+- 💖 Strengthens emotional connections for couples
+- 🎯 High user engagement through personalized memories
+- 🧠 Combines AI + real-time storage + security
+- 📱 Ready for launch and scalability
