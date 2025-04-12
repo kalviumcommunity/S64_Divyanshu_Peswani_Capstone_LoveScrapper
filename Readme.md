@@ -69,3 +69,12 @@ Why This Project?
 🎨 Personalized Experience – Every couple’s scrapbook is uniquely theirs
 bak
 This project plan outlines a 4-week development timeline for a mobile app that helps couples strengthen their bond through shared memories. The app will include features such as photo and video sharing, sentiment analysis, and personalized suggestions. The project will be developed using React Native, Node.js, and MongoDB, and will be deployed on AWS. The plan includes a detailed breakdown of the features to be implemented, the technologies to be used, and the milestones to be achieved during the development process.
+
+
+
+
+
+
+
+render link
+"https://s64-divyanshu-peswani-capstone-d2pe.onrender.com"
