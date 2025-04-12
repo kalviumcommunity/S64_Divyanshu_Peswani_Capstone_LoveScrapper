@@ -25,4 +25,15 @@ router.get('/:id', async (req, res) => {
       res.status(500).json({ error: err.message });
     }
   });
+
+
+  router.post('/', async (req, res) => {
+    try {
+      const newMemory = new Memory(req.body); 
+      const savedMemory = await newMemory.save();
+      res.status(201).json(savedMemory);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  });
 module.exports = router;
