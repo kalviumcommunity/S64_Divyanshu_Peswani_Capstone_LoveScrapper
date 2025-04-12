@@ -36,4 +36,19 @@ router.get('/:id', async (req, res) => {
       res.status(400).json({ error: err.message });
     }
   });
+
+// UPDATE (PUT) - Update a memory by ID
+router.put('/:id', async (req, res) => {
+    try {
+      const updatedMemory = await Memory.findByIdAndUpdate(req.params.id, req.body, { new: true });
+      if (!updatedMemory) {
+        return res.status(404).json({ error: 'Memory not found' });
+      }
+      res.status(200).json(updatedMemory);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+  
+
 module.exports = router;
