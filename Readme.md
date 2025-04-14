@@ -114,3 +114,8 @@ This project is licensed under the [MIT License](LICENSE).
 - 🎯 High user engagement through personalized memories
 - 🧠 Combines AI + real-time storage + security
 - 📱 Ready for launch and scalability
+
+
+
+
+render link "https://s64-divyanshu-peswani-capstone.onrender.com"
