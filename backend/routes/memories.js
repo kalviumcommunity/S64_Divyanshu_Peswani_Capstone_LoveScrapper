@@ -5,11 +5,10 @@ const Memory = require('../models/Memory');
 // GET all memories (for a user)
 router.get('/', async (req, res) => {
   try {
-    const userId = req.query.userId; 
-    const memories = await Memory.find({ userId });
+    const memories = await Memory.find().populate('userId', 'name email');
     res.status(200).json(memories);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
