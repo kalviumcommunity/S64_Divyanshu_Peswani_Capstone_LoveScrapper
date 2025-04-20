@@ -9,12 +9,10 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-
     try {
       // Replace with your actual API endpoint
       const response = await fetch('/api/auth/login', {
@@ -31,16 +29,19 @@ const LoginPage = () => {
         throw new Error(data.message || 'Failed to sign in');
       }
 
-      // Store auth token or user data
-      localStorage.setItem('token', data.token);
-      navigate('/dashboard');
+      // Check if the login was successful (no JWT handling in this case)
+      if (data.success) {
+        // Redirect to the dashboard if login is successful
+        navigate('/dashboard');
+      } else {
+        throw new Error('Invalid credentials');
+      }
     } catch (err) {
       setError(err.message);
     } finally {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="login-page">
       <div className="login-container">
