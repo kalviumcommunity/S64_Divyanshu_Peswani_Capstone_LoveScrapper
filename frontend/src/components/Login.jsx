@@ -1,110 +1,143 @@
+// components/LoginPage.jsx
 import { useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom'; // Import Link for routing
+import { Link, useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [message, setMessage] = useState('');
-
-  const handleChange = (e) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
+const LoginPage = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', formData);
-      setMessage('Login Successful!');
-      console.log(res.data); // You can use this data later
+      // Replace with your actual API endpoint
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to sign in');
+      }
+
+      // Store auth token or user data
+      localStorage.setItem('token', data.token);
+      navigate('/dashboard');
     } catch (err) {
-      setMessage('Invalid credentials');
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="login-page min-h-screen flex items-center justify-center bg-gray-50 py-8 px-4">
-      <div className="login-container flex w-full max-w-4xl bg-white rounded-xl shadow-md overflow-hidden">
-        {/* Left Container (Login Form) */}
-        <div className="login-form-container flex-1 p-12">
-          <div className="logo-container mb-8">
-            <div className="logo flex items-center text-gray-800 font-bold text-xl">
-              <div className="logo-circle w-9 h-9 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold mr-3">
-                M
-              </div>
-              Memory Keeper
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl w-full bg-white rounded-lg shadow-xl flex">
+        <div className="flex-1 p-12">
+          <div className="mb-10 flex items-center">
+            <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl mr-3">
+              MK
             </div>
+            <span className="font-semibold text-2xl text-gray-800">Memory Keeper</span>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-800 mb-2">Welcome Back</h1>
-          <p className="subtitle text-gray-600 mb-6">Sign in to continue to your memories</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Welcome Back</h1>
+          <p className="text-gray-500 mb-8">Sign in to continue to your memories</p>
 
-          <form onSubmit={handleSubmit} className="login-form space-y-6">
-            <div className="form-group space-y-2">
-              <label className="text-gray-800 font-medium">Email Address</label>
+          {error && (
+            <div className="bg-red-100 text-red-700 p-4 rounded mb-4">{error}</div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-6">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                Email Address
+              </label>
               <input
                 type="email"
-                name="email"
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                id="email"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="form-group space-y-2">
-              <label className="text-gray-800 font-medium">Password</label>
-              <input
-                type="password"
-                name="password"
-                className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={handleChange}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
 
-            <div className="forgot-password flex justify-end mb-4">
-              <a href="#" className="text-sm text-purple-600 hover:underline">
+            <div className="mb-6">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="flex justify-end mb-6">
+              <Link to="/forgot-password" className="text-sm text-indigo-600 hover:text-indigo-500">
                 Forgot password?
-              </a>
+              </Link>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              disabled={isLoading}
             >
-              Sign In
+              {isLoading ? 'Signing In...' : 'Sign In'}
             </button>
-
-            <p className="signup-link text-center text-gray-600 mt-4 text-sm">
-              Don't have an account?{' '}
-              <Link to="/signup" className="text-purple-600 font-medium hover:underline">
-                Sign up
-              </Link>
-            </p>
           </form>
 
-          {message && <p className="error-message text-center text-red-500 mt-4">{message}</p>}
+          <div className="mt-8 text-center text-gray-500">
+            Don't have an account?{' '}
+            <Link to="/signup" className="text-indigo-600 font-semibold hover:text-indigo-700">
+              Sign up
+            </Link>
+          </div>
         </div>
 
-        {/* Right Container (Feature Section) */}
-        <div className="login-feature-container hidden lg:block flex-1 bg-purple-600 text-white p-8 flex items-center justify-center relative">
-          <div className="feature-content text-center max-w-sm">
-            <h2 className="text-3xl font-bold mb-4">Memories at Your Fingertips</h2>
-            <p className="text-lg mb-6 opacity-90">
-              Discover, store, and cherish the best moments of your life, all in one place.
-            </p>
-            <ul className="feature-list grid grid-cols-2 gap-6 mb-8">
-              <li className="feature-item flex items-center text-lg">
-                <span className="feature-icon text-2xl mr-3">✔️</span> Easy Access to Your Memories
-              </li>
-              <li className="feature-item flex items-center text-lg">
-                <span className="feature-icon text-2xl mr-3">✔️</span> Secure and Private
-              </li>
-            </ul>
-            <div className="pagination-dots flex justify-center gap-2">
-              <div className="dot w-2.5 h-2.5 bg-white rounded-full opacity-60"></div>
-              <div className="dot w-2.5 h-2.5 bg-white rounded-full opacity-100"></div>
-              <div className="dot w-2.5 h-2.5 bg-white rounded-full opacity-60"></div>
+        <div className="flex-1 bg-indigo-600 text-white p-12 flex items-center justify-center">
+          <div className="max-w-sm text-center">
+            <h2 className="text-3xl font-bold mb-4">Preserve Your Love Story</h2>
+            <p className="text-lg mb-6">Create a beautiful digital scrapbook of your relationship with AI-powered organization and private sharing.</p>
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <span className="text-xl">📸</span>
+                <span className="ml-2">Smart Photo Organization</span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-xl">💌</span>
+                <span className="ml-2">Love Notes & Messages</span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-xl">🧡</span>
+                <span className="ml-2">Shared Bucket List</span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-xl">🔒</span>
+                <span className="ml-2">Private & Secure</span>
+              </div>
+            </div>
+            <div className="flex justify-center mt-6 space-x-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-white opacity-50"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-white"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-white opacity-50"></span>
             </div>
           </div>
         </div>
@@ -113,4 +146,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;
