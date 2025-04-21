@@ -15,24 +15,36 @@ const SignupPage = () => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-
+  
+    if (!fullName || !email || !password) {
+      setError("Please fill all the fields");
+      setIsLoading(false);
+      return;
+    }
+  
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password, fullName }),
+      body: JSON.stringify({
+          name: fullName,
+          email,
+          password,
+        }),
       });
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to create account');
+        throw new Error(data.message || 'Registration failed');
       }
-
-      navigate('/dashboard');
+  
+      // On success
+      navigate('/login');
     } catch (err) {
+      console.error('Registration error:', err);
       setError(err.message);
     } finally {
       setIsLoading(false);

@@ -15,8 +15,7 @@ const LoginPage = () => {
     setError('');
 
     try {
-      // Replace with your actual API endpoint
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -30,14 +29,10 @@ const LoginPage = () => {
         throw new Error(data.message || 'Failed to sign in');
       }
 
-      // Check if the login was successful (no JWT handling in this case)
-      if (data.success) {
-        // Redirect to the dashboard if login is successful
-        navigate('/dashboard');
-      } else {
-        throw new Error('Invalid credentials');
-      }
+      // Login success (your backend returns user object)
+      navigate('/dashboard'); // or wherever you want to redirect after login
     } catch (err) {
+      console.error('Login error:', err.message);
       setError(err.message);
     } finally {
       setIsLoading(false);
@@ -47,6 +42,7 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl w-full bg-white rounded-lg shadow-xl flex">
+        {/* Left Side - Login Form */}
         <div className="flex-1 p-12">
           <div className="mb-10 flex items-center">
             <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl mr-3">
@@ -59,7 +55,9 @@ const LoginPage = () => {
           <p className="text-gray-500 mb-8">Sign in to continue to your memories</p>
 
           {error && (
-            <div className="bg-red-100 text-red-700 p-4 rounded mb-4">{error}</div>
+            <div className="bg-red-100 text-red-700 p-4 rounded mb-4">
+              {error}
+            </div>
           )}
 
           <form onSubmit={handleSubmit}>
@@ -101,7 +99,7 @@ const LoginPage = () => {
 
             <button
               type="submit"
-              className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:bg-indigo-300"
               disabled={isLoading}
             >
               {isLoading ? 'Signing In...' : 'Sign In'}
@@ -116,6 +114,7 @@ const LoginPage = () => {
           </div>
         </div>
 
+        {/* Right Side - Info Panel */}
         <div className="flex-1 bg-indigo-600 text-white p-12 flex items-center justify-center">
           <div className="max-w-sm text-center">
             <h2 className="text-3xl font-bold mb-4">Preserve Your Love Story</h2>

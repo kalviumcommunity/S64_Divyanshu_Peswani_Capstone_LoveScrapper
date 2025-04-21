@@ -25,6 +25,16 @@ router.get('/:id', async (req, res) => {
     }
   });
 
+  // This would be in your backend/routes/memories.js
+router.get('/count', async (req, res) => {
+  try {
+    const count = await Memory.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
   router.post('/', async (req, res) => {
     try {
