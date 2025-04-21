@@ -2,80 +2,49 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const SignupPage = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
-
-  const [passwordCriteria, setPasswordCriteria] = useState({
-    hasEightChars: false,
-    hasUppercase: false,
-    hasNumber: false
-  });
-
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-
-    if (name === 'password') {
-      setPasswordCriteria({
-        hasEightChars: value.length >= 8,
-        hasUppercase: /[A-Z]/.test(value),
-        hasNumber: /[0-9]/.test(value)
-      });
-    }
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!agreeToTerms) {
-      setError('You must agree to the Terms of Service and Privacy Policy');
-      return;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    if (!passwordCriteria.hasEightChars || !passwordCriteria.hasUppercase || !passwordCriteria.hasNumber) {
-      setError('Password does not meet all requirements');
-      return;
-    }
-
     setIsLoading(true);
     setError('');
-
+  
+    if (!fullName || !email || !password) {
+      setError("Please fill all the fields");
+      setIsLoading(false);
+      return;
+    }
+  
     try {
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: formData.fullName,
-          email: formData.email,
-          password: formData.password
+      body: JSON.stringify({
+          name: fullName,
+          email,
+          password,
         }),
       });
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to create account');
+        throw new Error(data.message || 'Registration failed');
       }
-
-      localStorage.setItem('token', data.token);
-      navigate('/dashboard');
+  
+      // On success
+      navigate('/login');
     } catch (err) {
+      console.error('Registration error:', err);
       setError(err.message);
     } finally {
       setIsLoading(false);
@@ -95,7 +64,7 @@ const SignupPage = () => {
               Memory Keeper
             </Link>
           </div>
-          
+
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Your Account</h1>
           <p className="text-gray-500 mb-6">Start preserving your precious moments together</p>
 
@@ -109,8 +78,8 @@ const SignupPage = () => {
                 id="fullName"
                 name="fullName"
                 placeholder="Enter your full name"
-                value={formData.fullName}
-                onChange={handleChange}
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
                 required
                 className="p-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
@@ -123,8 +92,8 @@ const SignupPage = () => {
                 id="email"
                 name="email"
                 placeholder="Enter your email"
-                value={formData.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 className="p-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
@@ -137,26 +106,11 @@ const SignupPage = () => {
                 id="password"
                 name="password"
                 placeholder="Create a strong password"
-                value={formData.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
                 className="p-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
-            </div>
-
-            <div className="mt-2 flex flex-col gap-2 text-sm text-gray-600">
-              <div className={`flex items-center gap-2 ${passwordCriteria.hasEightChars ? 'text-green-500' : ''}`}>
-                <span className="w-4 h-4 rounded-full bg-gray-300">{passwordCriteria.hasEightChars && '✓'}</span>
-                8+ characters
-              </div>
-              <div className={`flex items-center gap-2 ${passwordCriteria.hasUppercase ? 'text-green-500' : ''}`}>
-                <span className="w-4 h-4 rounded-full bg-gray-300">{passwordCriteria.hasUppercase && '✓'}</span>
-                1 uppercase letter
-              </div>
-              <div className={`flex items-center gap-2 ${passwordCriteria.hasNumber ? 'text-green-500' : ''}`}>
-                <span className="w-4 h-4 rounded-full bg-gray-300">{passwordCriteria.hasNumber && '✓'}</span>
-                1 number
-              </div>
             </div>
 
             <div className="flex flex-col space-y-2">
@@ -166,8 +120,8 @@ const SignupPage = () => {
                 id="confirmPassword"
                 name="confirmPassword"
                 placeholder="Confirm your password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 className="p-3 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               />
