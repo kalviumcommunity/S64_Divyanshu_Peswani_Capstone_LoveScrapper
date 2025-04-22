@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { ChevronLeft, Edit, Settings } from 'lucide-react';
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { ChevronLeft, Edit, Settings, Camera } from "lucide-react";
+
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState({
@@ -21,6 +23,8 @@ const ProfilePage = () => {
     ]
   });
 
+  const profilePhotoInput = useRef(null);
+  const coverPhotoInput = useRef(null);
   // State for editing mode
   const [isEditingAbout, setIsEditingAbout] = useState(false);
   const [editedAbout, setEditedAbout] = useState(profile.about);
@@ -29,6 +33,34 @@ const ProfilePage = () => {
   const [newInterest, setNewInterest] = useState("");
   const [isAddingInterest, setIsAddingInterest] = useState(false);
 
+  const handleProfilePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setProfile({
+          ...profile,
+          profilePhoto: event.target.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+   // Handle cover photo change
+   const handleCoverPhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setProfile({
+          ...profile,
+          coverPhoto: event.target.result
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   // Handle about section save
   const handleSaveAbout = () => {
     setProfile({
@@ -87,6 +119,21 @@ const ProfilePage = () => {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30" />
+     {/* Cover photo edit button */}
+     <button 
+          className="absolute bottom-4 right-4 bg-white/80 rounded-full p-2"
+          onClick={() => coverPhotoInput.current.click()}
+        >
+          <Camera className="w-5 h-5 text-gray-600" />
+        </button>
+        <input 
+          type="file" 
+          ref={coverPhotoInput} 
+          className="hidden" 
+          accept="image/*"
+          onChange={handleCoverPhotoChange}
+        />
+     
       </div>
 
       {/* Profile section */}
@@ -100,7 +147,23 @@ const ProfilePage = () => {
               className="w-full h-full object-cover"
             />
           </div>
+          {/* Profile photo edit button */}
+          <button 
+            className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md"
+            onClick={() => profilePhotoInput.current.click()}
+          >
+            <Camera className="w-4 h-4 text-gray-600" />
+          </button>
+          <input 
+            type="file" 
+            ref={profilePhotoInput} 
+            className="hidden" 
+            accept="image/*"
+            onChange={handleProfilePhotoChange}
+          />
         </div>
+
+        
 
         {/* Name and location */}
         <div className="mt-4 text-center">
