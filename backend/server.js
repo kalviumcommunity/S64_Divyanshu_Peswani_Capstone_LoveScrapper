@@ -5,15 +5,19 @@ const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
 
+
 // Import routes
 const memoriesRoutes = require('./routes/memories');
 const authRoutes = require('./routes/auth');
 
 const app = express();
+const cors = require('cors');
+
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {

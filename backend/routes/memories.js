@@ -1,31 +1,58 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');
 const router = express.Router();
 const Memory = require('../models/Memory');
+const multer = require('multer');
+const path = require('path');
 
-// GET all memories (for a user)
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Make sure this folder exists
+  },
+  filename: function (req, file, cb) {
+    const uniqueName = Date.now() + '-' + file.originalname;
+    cb(null, uniqueName);
+  },
+});
+
+const upload = multer({ storage: storage });
+
+
+// GET all memories with optional search
 router.get('/', async (req, res) => {
   try {
-    const memories = await Memory.find().populate('userId', 'name email');
+    const { search = '' } = req.query;
+    const query = {
+      $or: [
+        { title: new RegExp(search, 'i') },
+        { tags: new RegExp(search, 'i') },
+        { location: new RegExp(search, 'i') }
+      ]
+    };
+
+    const memories = await Memory.find(search ? query : {})
+      .populate('userId', 'name email')
+      .sort({ createdAt: -1 });
+
     res.status(200).json(memories);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// GET a specific memory by ID
+// GET memory by ID
 router.get('/:id', async (req, res) => {
-    try {
-      const memory = await Memory.findById(req.params.id);
-      if (!memory) {
-        return res.status(404).json({ error: 'Memory not found' });
-      }
-      res.status(200).json(memory);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  });
+  try {
+    const memory = await Memory.findById(req.params.id);
+    if (!memory) return res.status(404).json({ error: 'Memory not found' });
+    res.status(200).json(memory);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
-  // This would be in your backend/routes/memories.js
+// GET memory count
 router.get('/count', async (req, res) => {
   try {
     const count = await Memory.countDocuments();
@@ -35,29 +62,38 @@ router.get('/count', async (req, res) => {
   }
 });
 
+// POST: Add new memory with image upload
+router.post('/', upload.single('image'), async (req, res) => {
+  try {
+    const newMemory = new Memory({
+      imageUrl: `/uploads/${req.file.filename}`, // Save the image path
+    });
+    const savedMemory = await newMemory.save();
+    res.status(201).json(savedMemory);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
 
-  router.post('/', async (req, res) => {
-    try {
-      const newMemory = new Memory(req.body); 
-      const savedMemory = await newMemory.save();
-      res.status(201).json(savedMemory);
-    } catch (err) {
-      res.status(400).json({ error: err.message });
+// PUT: Update memory
+router.put('/:id', upload.single('image'), async (req, res) => {
+  try {
+    const updateData = req.body;
+    if (req.file) {
+      updateData.imageUrl = `/uploads/${req.file.filename}`;
     }
-  });
 
-// UPDATE (PUT) - Update a memory by ID
-router.put('/:id', async (req, res) => {
-    try {
-      const updatedMemory = await Memory.findByIdAndUpdate(req.params.id, req.body, { new: true });
-      if (!updatedMemory) {
-        return res.status(404).json({ error: 'Memory not found' });
-      }
-      res.status(200).json(updatedMemory);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  });
-  
+    const updatedMemory = await Memory.findByIdAndUpdate(
+      req.params.id,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedMemory) return res.status(404).json({ error: 'Memory not found' });
+    res.status(200).json(updatedMemory);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 module.exports = router;
