@@ -1,4 +1,5 @@
 // backend/server.js
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,6 +10,7 @@ require('dotenv').config();
 // Import routes
 const memoriesRoutes = require('./routes/memories');
 const authRoutes = require('./routes/auth');
+const profileRoutes = require('./routes/ProfileRoutes');
 
 const app = express();
 const cors = require('cors');
@@ -30,6 +32,7 @@ mongoose.connect(process.env.MONGO_URI, {
 // Use routes
 app.use('/api/memories', memoriesRoutes);
 app.use('/api/auth', authRoutes);
+app.use("/api/profile", profileRoutes);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
